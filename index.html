@@ -361,6 +361,11 @@
     font-family: 'Cinzel', Georgia, serif; font-size: 9px;
     letter-spacing: 3px; color: var(--gold-dark); text-transform: uppercase; line-height: 1.8;
   }
+  .pix-box { margin-top: 22px; display: flex; flex-direction: column; align-items: center; }
+  .pix-label { font-family: 'Cinzel', Georgia, serif; font-size: 9px; letter-spacing: 3px; color: var(--gold-dark); text-transform: uppercase; }
+  .pix-key { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 25px; color: var(--gold-dark); letter-spacing: 1px; margin-top: 8px; }
+  .pix-btn { cursor: pointer; border: none; }
+  .pix-owner { font-family: 'EB Garamond', Georgia, serif; font-size: 13px; font-style: italic; color: var(--text-mid); margin-top: 14px; }
 
   /* RSVP */
   .rsvp-section { padding-bottom: 100px; }
@@ -600,7 +605,7 @@
 
   <!-- LISTA DE PRESENTES -->
   <section style="padding-top: 0;">
-    <span class="section-label reveal">Lista de Presentes</span>
+    <span class="section-label reveal">Presentes</span>
     <div class="gift-box reveal">
       <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#4E6B40" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;margin:0 auto">
         <path d="M20 12v10H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/>
@@ -609,10 +614,14 @@
       </svg>
       <p class="gift-text">
         Sua presença já é o nosso maior presente.<br>
-        Mas, se desejar nos presentear,<br>preparamos a nossa lista com muito carinho.
+        Mas, se desejar nos abençoar,<br>deixamos com carinho a nossa chave PIX.
       </p>
-      <a class="btn-primary" id="gift-link" href="#" target="_blank" rel="noopener" style="display:none;text-decoration:none;margin-top:8px;">Ver Lista de Presentes</a>
-      <span class="gift-note" style="display:block;margin-top:18px;">Em breve disponibilizaremos o link da nossa lista 💛</span>
+      <div class="pix-box">
+        <span class="pix-label">Chave PIX · Celular</span>
+        <span class="pix-key" id="pix-key">+55 85 99831-3646</span>
+        <button class="btn-primary pix-btn" onclick="copiarPix()" style="margin-top:16px;"><span id="pix-btn-text">Copiar chave PIX</span></button>
+        <span class="pix-owner">Larissa Moreira Silva</span>
+      </div>
     </div>
   </section>
 
@@ -814,6 +823,21 @@
     document.getElementById('guest-name').focus();
   }
 
+  function copiarPix() {
+    var chave = '+5585998313646';
+    var txt = document.getElementById('pix-btn-text');
+    function ok() { var o = 'Copiar chave PIX'; txt.textContent = '✓ Chave copiada!'; setTimeout(function(){ txt.textContent = o; }, 2200); }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(chave).then(ok).catch(function(){ fallbackCopy(chave); ok(); });
+    } else { fallbackCopy(chave); ok(); }
+  }
+  function fallbackCopy(t) {
+    var ta = document.createElement('textarea'); ta.value = t;
+    ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.focus(); ta.select();
+    try { document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta);
+  }
   function openMapCerimonia() {
     window.open('https://maps.app.goo.gl/MKM3irNE69VinBJU9', '_blank');
   }
